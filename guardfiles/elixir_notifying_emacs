@@ -1,0 +1,24 @@
+# -*- ruby -*-
+
+# ignore various backuo files
+def ignoring(file)
+  file =~ %r{((^|/)\.#)|(~$)}
+end
+
+guard :shell do
+  interactor   :off
+  notification  :emacs
+  watch(/^(lib|test).*\.exs?$/) do |file, dir|
+    unless ignoring(file)
+      # `mix test`
+      # if $?.success?
+      #   Notifier.notify "Success", type: "success"
+      # else
+      #   Notifier.notify "Failed", type: "failed"
+      # end
+      STDERR.puts "CHANGED #{file.inspect}"
+    end
+  end
+end
+
+
